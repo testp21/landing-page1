@@ -34,19 +34,19 @@ const App = () => {
 
   // Debounced search
   const handleSearch = useCallback(
-    debounce((query) => {
+    debounce((query,userList) => {
       const lowerQuery = query.toLowerCase();
       setFilteredUsers(
         users.filter((user) => user.name.toLowerCase().includes(lowerQuery))
       );
     }, 300),
-    [users]
+    []
   );
 
   const onSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    handleSearch(value);
+    handleSearch(value, users);
   };
 
   return (
