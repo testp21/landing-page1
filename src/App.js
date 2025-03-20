@@ -32,13 +32,15 @@ const App = () => {
     fetchData();
   }, []);
 
-  // Debounced search
+
+  const filterUsers=(query,userList)=>{
+    const lowerQuery = query.toLowerCase();
+      return userList.filter((user) => user.name.toLowerCase().includes(lowerQuery));
+    
   const handleSearch = useCallback(
-    debounce((query,userList) => {
-      const lowerQuery = query.toLowerCase();
-      setFilteredUsers(
-        users.filter((user) => user.name.toLowerCase().includes(lowerQuery))
-      );
+    debounce((query,userList, setFiltered) => {
+      const results = filterUsers(query, userList);
+      setFiltered(results);
     }, 300),
     []
   );
@@ -46,7 +48,7 @@ const App = () => {
   const onSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    handleSearch(value, users);
+    handleSearch(value, users, setFilteredUsers);
   };
 
   return (
